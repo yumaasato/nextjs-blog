@@ -1,16 +1,18 @@
-import Head from 'next/head'
-import Layout, { siteTitle } from '../components/layout'
-import utilStyles from '../styles/utils.module.css'
-import { getSortedPostsData } from '../lib/posts'
+import Head from "next/head";
+import Layout, { siteTitle } from "../components/layout";
+import utilStyles from "../styles/utils.module.css";
+import { getSortedPostsData } from "../lib/posts";
+import Link from "next/link";
+import Date from "../components/date";
 
 export async function getStaticProps() {
-  const allPostsData = getSortedPostsData()
+  const allPostsData = getSortedPostsData();
   return {
     //propsというキーに対してオブジェクト型で返す
     props: {
-      allPostsData
-    }
-  }
+      allPostsData,
+    },
+  };
 }
 
 const Home = ({ allPostsData }) => {
@@ -22,7 +24,7 @@ const Home = ({ allPostsData }) => {
       <section className={utilStyles.headingMd}>
         <p>九州大学法学部</p>
         <p>
-          (This is a sample website - you’ll be building a site like this on{' '}
+          (This is a sample website - you’ll be building a site like this on{" "}
           <a href="https://twitter.com/satopin2020">our Twitter</a>.)
         </p>
       </section>
@@ -31,17 +33,19 @@ const Home = ({ allPostsData }) => {
         <ul className={utilStyles.list}>
           {allPostsData.map(({ id, date, title }) => (
             <li className={utilStyles.listItem} key={id}>
-              {title}
+              <Link href={`/posts/${id}`}>
+                <a>{title}</a>
+              </Link>
               <br />
-              {id}
-              <br />
-              {date}
+              <small className={utilStyles.lightText}>
+                <Date dateString={date} />
+              </small>
             </li>
           ))}
         </ul>
       </section>
     </Layout>
-  )
-}
+  );
+};
 
 export default Home;
