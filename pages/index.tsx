@@ -4,8 +4,9 @@ import utilStyles from "../styles/utils.module.css";
 import { getSortedPostsData } from "../lib/posts";
 import Link from "next/link";
 import Date from "../components/date";
+import { GetStaticProps } from 'next'
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async context => {
   const allPostsData = getSortedPostsData();
   return {
     //propsというキーに対してオブジェクト型で返す
@@ -15,7 +16,15 @@ export async function getStaticProps() {
   };
 }
 
-const Home = ({ allPostsData }) => {
+type Props = {
+  allPostsData: {
+    id: string
+    title: string
+    date: string
+  }[]
+}
+
+const Home = ({ allPostsData }: Props) => {
   return (
     <Layout home>
       <Head>
